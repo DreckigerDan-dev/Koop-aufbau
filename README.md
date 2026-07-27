@@ -15,5 +15,20 @@ Kern-Loop-Architektur steht.
 
 ## Status
 
-Etappe 0 abgeschlossen: Projekt-Grundgerüst. Nächster Schritt: erster
-spielbarer Meilenstein (Karte, Basis, ein Arbeiter, der Ressourcen sammelt).
+- Etappe 0 abgeschlossen: Projekt-Grundgerüst.
+- Etappe 1 abgeschlossen: erster spielbarer Meilenstein.
+  - Platzhalter-Karte mit zwei Gebäuden und zwei Ressourcen (Bäume)
+  - Klick auf Gebäude → wird zur Basis (visuelle Markierung)
+  - Klick auf Ressource → Arbeiter läuft per Pathfinding (NavigationAgent2D)
+    dorthin, sammelt und der Holz-Zähler oben links zählt hoch
+
+### Zum Testen
+
+1. Projekt in Godot 4.3 öffnen (Import → dieses Verzeichnis)
+2. F5 / Play drücken (Hauptszene ist bereits gesetzt)
+3. Auf ein Gebäude klicken → wird gold markiert (= Basis)
+4. Auf einen Baum klicken → der blaue Arbeiter läuft hin, sammelt kurz,
+   Holz-Zähler zählt hoch, Baum verschwindet
+
+Nächster Schritt: Etappe 2 — mehrere Arbeiter mit manueller Zuweisung und
+mehrere Ressourcentypen.
