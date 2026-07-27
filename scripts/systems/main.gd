@@ -33,6 +33,14 @@ func _on_resource_clicked(resource_node: Area2D) -> void:
 		return
 	_selected_worker.move_to_resource(resource_node)
 
+func _unhandled_input(event: InputEvent) -> void:
+	# Klick auf Gebäude/Ressource/Arbeiter wird schon vorher über deren
+	# eigenes input_event verarbeitet; hier landet nur ein Klick auf leeren Boden.
+	if _selected_worker == null:
+		return
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		_selected_worker.move_to_point(get_global_mouse_position())
+
 func _on_worker_gathered(resource_type: String, amount: int) -> void:
 	colony.add_resource(resource_type, amount)
 

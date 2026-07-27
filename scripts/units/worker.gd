@@ -13,6 +13,7 @@ const GATHER_DURATION := 1.5
 @onready var visual: Polygon2D = $Visual
 
 var _target_resource: Area2D = null
+var _moving := false
 var _gathering := false
 
 func _ready() -> void:
@@ -27,19 +28,29 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 func set_selected(is_selected: bool) -> void:
 	visual.color = selected_color if is_selected else normal_color
 
+func move_to_point(target_position: Vector2) -> void:
+	if _gathering:
+		return
+	_target_resource = null
+	_moving = true
+	nav_agent.target_position = target_position
+
 func move_to_resource(resource_node: Area2D) -> void:
 	if _gathering:
 		return
 	_target_resource = resource_node
+	_moving = true
 	nav_agent.target_position = resource_node.global_position
 
 func _physics_process(_delta: float) -> void:
-	if _gathering or _target_resource == null:
+	if _gathering or not _moving:
 		velocity = Vector2.ZERO
 		return
 
 	if nav_agent.is_navigation_finished():
-		_start_gathering()
+		_moving = false
+		if _target_resource != null:
+			_start_gathering()
 		return
 
 	var next_point: Vector2 = nav_agent.get_next_path_position()
