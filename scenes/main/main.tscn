@@ -31,15 +31,30 @@ position = Vector2(400, 150)
 [node name="TreeB" parent="." instance=ExtResource("3_resource")]
 position = Vector2(250, 450)
 
-[node name="Worker" parent="." instance=ExtResource("4_worker")]
+[node name="CarA" parent="." instance=ExtResource("3_resource")]
+position = Vector2(600, 200)
+resource_type = "stahl"
+amount = 8
+visual_color = Color(0.6, 0.62, 0.65, 1)
+
+[node name="CarB" parent="." instance=ExtResource("3_resource")]
+position = Vector2(150, 400)
+resource_type = "stahl"
+amount = 8
+visual_color = Color(0.6, 0.62, 0.65, 1)
+
+[node name="WorkerA" parent="." instance=ExtResource("4_worker")]
 position = Vector2(400, 400)
+
+[node name="WorkerB" parent="." instance=ExtResource("4_worker")]
+position = Vector2(300, 300)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(400, 300)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="ResourceLabel" type="Label" parent="CanvasLayer"]
+[node name="HolzLabel" type="Label" parent="CanvasLayer"]
 offset_left = 16.0
 offset_top = 16.0
 offset_right = 216.0
@@ -47,10 +62,18 @@ offset_bottom = 48.0
 theme_override_font_sizes/font_size = 24
 text = "Holz: 0"
 
-[node name="BaseLabel" type="Label" parent="CanvasLayer"]
+[node name="StahlLabel" type="Label" parent="CanvasLayer"]
 offset_left = 16.0
 offset_top = 52.0
-offset_right = 316.0
+offset_right = 216.0
 offset_bottom = 84.0
+theme_override_font_sizes/font_size = 24
+text = "Stahl: 0"
+
+[node name="BaseLabel" type="Label" parent="CanvasLayer"]
+offset_left = 16.0
+offset_top = 88.0
+offset_right = 316.0
+offset_bottom = 120.0
 theme_override_font_sizes/font_size = 24
 text = "Keine Basis ausgewählt"

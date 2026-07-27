@@ -1,14 +1,31 @@
 extends CharacterBody2D
 
 signal gathered(resource_type: String, amount: int)
+signal clicked(worker: CharacterBody2D)
 
 const SPEED := 120.0
 const GATHER_DURATION := 1.5
 
+@export var normal_color: Color = Color(0.2, 0.4, 0.8)
+@export var selected_color: Color = Color(0.4, 0.8, 1.0)
+
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
+@onready var visual: Polygon2D = $Visual
 
 var _target_resource: Area2D = null
 var _gathering := false
+
+func _ready() -> void:
+	add_to_group("workers")
+	input_event.connect(_on_input_event)
+	visual.color = normal_color
+
+func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		clicked.emit(self)
+
+func set_selected(is_selected: bool) -> void:
+	visual.color = selected_color if is_selected else normal_color
 
 func move_to_resource(resource_node: Area2D) -> void:
 	if _gathering:

@@ -22,13 +22,25 @@ Kern-Loop-Architektur steht.
   - Klick auf Ressource → Arbeiter läuft per Pathfinding (NavigationAgent2D)
     dorthin, sammelt und der Holz-Zähler oben links zählt hoch
 
+- Etappe 2 abgeschlossen: mehrere Arbeiter, manuelle Zuweisung, zweiter
+  Ressourcentyp.
+  - Zwei Arbeiter (blaue Dreiecke) statt einem
+  - Arbeiter anklicken → wird hellblau markiert (ausgewählt)
+  - Danach eine Ressource anklicken → nur der ausgewählte Arbeiter läuft hin
+  - Zweiter Ressourcentyp "Stahl" (graue Kreise, Platzhalter für Autos)
+  - Zentrale `Colony`-Zustandsklasse (`scripts/systems/colony.gd`) verwaltet
+    die Ressourcenzähler statt verstreuter Einzel-Variablen
+
 ### Zum Testen
 
-1. Projekt in Godot 4.3 öffnen (Import → dieses Verzeichnis)
+1. Projekt in Godot 4.3+ öffnen (Import → dieses Verzeichnis)
 2. F5 / Play drücken (Hauptszene ist bereits gesetzt)
 3. Auf ein Gebäude klicken → wird gold markiert (= Basis)
-4. Auf einen Baum klicken → der blaue Arbeiter läuft hin, sammelt kurz,
-   Holz-Zähler zählt hoch, Baum verschwindet
+4. Auf einen Arbeiter klicken → wird hellblau markiert (= ausgewählt)
+5. Auf einen Baum (grün) oder ein Auto (grau) klicken → der ausgewählte
+   Arbeiter läuft per Pathfinding hin, sammelt kurz, Zähler zählt hoch,
+   Ressource verschwindet
+6. Zweiten Arbeiter anklicken und Schritt 5 wiederholen → beide Arbeiter
+   können unabhängig zugewiesen werden
 
-Nächster Schritt: Etappe 2 — mehrere Arbeiter mit manueller Zuweisung und
-mehrere Ressourcentypen.
+Nächster Schritt: Etappe 3 — Truppen und einfaches Plündern.
