@@ -1,7 +1,9 @@
 extends Area2D
 
+signal base_selected(building_name: String)
+
 @export var normal_color: Color = Color(0.55, 0.42, 0.25)
-@export var base_color: Color = Color(0.85, 0.68, 0.15)
+@export var base_color: Color = Color(1.0, 0.85, 0.1)
 
 @onready var visual: Polygon2D = $Visual
 
@@ -19,3 +21,4 @@ func _become_base() -> void:
 	for building in get_tree().get_nodes_in_group("buildings"):
 		building.visual.color = building.normal_color
 	visual.color = base_color
+	base_selected.emit(name)
