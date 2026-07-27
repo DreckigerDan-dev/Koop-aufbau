@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/main.gd" id="1_main"]
+[ext_resource type="PackedScene" path="res://scenes/map/building.tscn" id="2_building"]
+[ext_resource type="PackedScene" path="res://scenes/map/resource_node.tscn" id="3_resource"]
+[ext_resource type="PackedScene" path="res://scenes/units/worker.tscn" id="4_worker"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_main"]
+vertices = PackedVector2Array(0, 0, 800, 0, 800, 600, 0, 600)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_main")
+
+[node name="Ground" type="Polygon2D" parent="."]
+color = Color(0.29, 0.42, 0.24, 1)
+polygon = PackedVector2Array(0, 0, 800, 0, 800, 600, 0, 600)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_main")
+
+[node name="BuildingA" parent="." instance=ExtResource("2_building")]
+position = Vector2(150, 150)
+
+[node name="BuildingB" parent="." instance=ExtResource("2_building")]
+position = Vector2(650, 450)
+
+[node name="TreeA" parent="." instance=ExtResource("3_resource")]
+position = Vector2(400, 150)
+
+[node name="TreeB" parent="." instance=ExtResource("3_resource")]
+position = Vector2(250, 450)
+
+[node name="Worker" parent="." instance=ExtResource("4_worker")]
+position = Vector2(400, 400)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(400, 300)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ResourceLabel" type="Label" parent="CanvasLayer"]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 216.0
+offset_bottom = 48.0
+theme_override_font_sizes/font_size = 24
+text = "Holz: 0"
