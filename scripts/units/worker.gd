@@ -23,14 +23,17 @@ func _ready() -> void:
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		print("[Worker] geklickt: ", name)
 		clicked.emit(self)
 
 func set_selected(is_selected: bool) -> void:
+	print("[Worker] ", name, " ausgewählt: ", is_selected)
 	visual.color = selected_color if is_selected else normal_color
 
 func move_to_point(target_position: Vector2) -> void:
 	if _gathering:
 		return
+	print("[Worker] ", name, " -> move_to_point ", target_position)
 	_target_resource = null
 	_moving = true
 	nav_agent.target_position = target_position
@@ -38,6 +41,7 @@ func move_to_point(target_position: Vector2) -> void:
 func move_to_resource(resource_node: Area2D) -> void:
 	if _gathering:
 		return
+	print("[Worker] ", name, " -> move_to_resource ", resource_node.name)
 	_target_resource = resource_node
 	_moving = true
 	nav_agent.target_position = resource_node.global_position

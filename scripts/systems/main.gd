@@ -14,21 +14,27 @@ func _ready() -> void:
 		resource_node.clicked.connect(_on_resource_clicked)
 	for building in get_tree().get_nodes_in_group("buildings"):
 		building.base_selected.connect(_on_base_selected)
-	for worker in get_tree().get_nodes_in_group("workers"):
+	var workers := get_tree().get_nodes_in_group("workers")
+	for worker in workers:
 		worker.gathered.connect(_on_worker_gathered)
 		worker.clicked.connect(_on_worker_clicked)
+
+	if workers.size() > 0:
+		_on_worker_clicked(workers[0])
 
 	holz_label.text = "Holz: 0"
 	stahl_label.text = "Stahl: 0"
 	base_label.text = "Keine Basis ausgewählt"
 
 func _on_worker_clicked(worker: CharacterBody2D) -> void:
+	print("[Main] Arbeiter-Klick empfangen: ", worker.name)
 	if _selected_worker != null:
 		_selected_worker.set_selected(false)
 	_selected_worker = worker
 	_selected_worker.set_selected(true)
 
 func _on_resource_clicked(resource_node: Area2D) -> void:
+	print("[Main] Ressourcen-Klick empfangen: ", resource_node.name, " selected_worker=", _selected_worker)
 	if _selected_worker == null:
 		return
 	_selected_worker.move_to_resource(resource_node)
@@ -36,10 +42,10 @@ func _on_resource_clicked(resource_node: Area2D) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	# Klick auf Gebäude/Ressource/Arbeiter wird schon vorher über deren
 	# eigenes input_event verarbeitet; hier landet nur ein Klick auf leeren Boden.
-	if _selected_worker == null:
-		return
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		_selected_worker.move_to_point(get_global_mouse_position())
+		print("[Main] Klick auf leeren Boden, selected_worker=", _selected_worker)
+		if _selected_worker != null:
+			_selected_worker.move_to_point(get_global_mouse_position())
 
 func _on_worker_gathered(resource_type: String, amount: int) -> void:
 	colony.add_resource(resource_type, amount)
