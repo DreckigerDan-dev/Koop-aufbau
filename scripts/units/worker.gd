@@ -1,7 +1,6 @@
 extends CharacterBody2D
 
 signal gathered(resource_type: String, amount: int)
-signal clicked(worker: CharacterBody2D)
 
 const SPEED := 120.0
 const GATHER_DURATION := 1.5
@@ -11,7 +10,6 @@ const GATHER_DURATION := 1.5
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var visual: Polygon2D = $Visual
-@onready var click_area: Area2D = $ClickArea
 
 var _target_resource: Area2D = null
 var _moving := false
@@ -19,22 +17,14 @@ var _gathering := false
 
 func _ready() -> void:
 	add_to_group("workers")
-	click_area.input_event.connect(_on_input_event)
 	visual.color = normal_color
 
-func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		print("[Worker] geklickt: ", name)
-		clicked.emit(self)
-
 func set_selected(is_selected: bool) -> void:
-	print("[Worker] ", name, " ausgewählt: ", is_selected)
 	visual.color = selected_color if is_selected else normal_color
 
 func move_to_point(target_position: Vector2) -> void:
 	if _gathering:
 		return
-	print("[Worker] ", name, " -> move_to_point ", target_position)
 	_target_resource = null
 	_moving = true
 	nav_agent.target_position = target_position
@@ -42,7 +32,6 @@ func move_to_point(target_position: Vector2) -> void:
 func move_to_resource(resource_node: Area2D) -> void:
 	if _gathering:
 		return
-	print("[Worker] ", name, " -> move_to_resource ", resource_node.name)
 	_target_resource = resource_node
 	_moving = true
 	nav_agent.target_position = resource_node.global_position
@@ -54,7 +43,6 @@ func _physics_process(_delta: float) -> void:
 
 	if nav_agent.is_navigation_finished():
 		_moving = false
-		print("[Worker] ", name, " Ziel erreicht, _target_resource=", _target_resource)
 		if _target_resource != null:
 			_start_gathering()
 		return
@@ -64,7 +52,6 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
 func _start_gathering() -> void:
-	print("[Worker] ", name, " beginnt zu sammeln von ", _target_resource.name)
 	_gathering = true
 	velocity = Vector2.ZERO
 	await get_tree().create_timer(GATHER_DURATION).timeout
@@ -72,10 +59,7 @@ func _start_gathering() -> void:
 	if is_instance_valid(_target_resource):
 		var resource_type: String = _target_resource.resource_type
 		var taken: int = _target_resource.gather(_target_resource.amount)
-		print("[Worker] ", name, " fertig gesammelt: ", taken, " ", resource_type)
 		gathered.emit(resource_type, taken)
-	else:
-		print("[Worker] ", name, " Ressource war schon weg beim Sammeln")
 
 	_target_resource = null
 	_gathering = false

@@ -1,11 +1,8 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/units/worker.gd" id="1_worker"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_worker"]
-radius = 20.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_click"]
 radius = 32.0
 
 [node name="Worker" type="CharacterBody2D"]
@@ -23,8 +20,3 @@ shape = SubResource("CircleShape2D_worker")
 path_desired_distance = 4.0
 target_desired_distance = 4.0
 avoidance_enabled = false
-
-[node name="ClickArea" type="Area2D" parent="."]
-
-[node name="ClickShape" type="CollisionShape2D" parent="ClickArea"]
-shape = SubResource("CircleShape2D_click")
