@@ -54,6 +54,7 @@ func _physics_process(_delta: float) -> void:
 
 	if nav_agent.is_navigation_finished():
 		_moving = false
+		print("[Worker] ", name, " Ziel erreicht, _target_resource=", _target_resource)
 		if _target_resource != null:
 			_start_gathering()
 		return
@@ -63,6 +64,7 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
 func _start_gathering() -> void:
+	print("[Worker] ", name, " beginnt zu sammeln von ", _target_resource.name)
 	_gathering = true
 	velocity = Vector2.ZERO
 	await get_tree().create_timer(GATHER_DURATION).timeout
@@ -70,7 +72,10 @@ func _start_gathering() -> void:
 	if is_instance_valid(_target_resource):
 		var resource_type: String = _target_resource.resource_type
 		var taken: int = _target_resource.gather(_target_resource.amount)
+		print("[Worker] ", name, " fertig gesammelt: ", taken, " ", resource_type)
 		gathered.emit(resource_type, taken)
+	else:
+		print("[Worker] ", name, " Ressource war schon weg beim Sammeln")
 
 	_target_resource = null
 	_gathering = false
