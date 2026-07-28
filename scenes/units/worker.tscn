@@ -19,3 +19,8 @@ shape = SubResource("CircleShape2D_worker")
 path_desired_distance = 4.0
 target_desired_distance = 4.0
 avoidance_enabled = false
+
+[node name="ClickArea" type="Area2D" parent="."]
+
+[node name="ClickShape" type="CollisionShape2D" parent="ClickArea"]
+shape = SubResource("CircleShape2D_worker")

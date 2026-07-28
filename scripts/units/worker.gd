@@ -11,6 +11,7 @@ const GATHER_DURATION := 1.5
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var visual: Polygon2D = $Visual
+@onready var click_area: Area2D = $ClickArea
 
 var _target_resource: Area2D = null
 var _moving := false
@@ -18,7 +19,7 @@ var _gathering := false
 
 func _ready() -> void:
 	add_to_group("workers")
-	input_event.connect(_on_input_event)
+	click_area.input_event.connect(_on_input_event)
 	visual.color = normal_color
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
